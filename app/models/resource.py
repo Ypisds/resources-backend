@@ -10,10 +10,11 @@ class TipoResource(str, Enum):
 
 class ResourceCreateRequest(SQLModel):
     titulo: str
-    descricao: str | None = Field(default=None,nullable=True)
+    descricao: str | None = Field(default=None, nullable=True)
     tipo: TipoResource
     url: str
     tags: list[str] = Field(default=[], sa_column=Column(JSON))
+
 
 class Resource(ResourceCreateRequest, table=True):
     id: int | None = Field(default=None, primary_key=True)

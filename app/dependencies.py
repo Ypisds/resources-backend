@@ -6,7 +6,10 @@ from pwdlib import PasswordHash
 from fastapi import Depends
 from .services.user_service import UserService
 
-def get_resource_service(db: Annotated[Session, Depends(get_session)]) -> ResourceService:
+
+def get_resource_service(
+    db: Annotated[Session, Depends(get_session)],
+) -> ResourceService:
     return ResourceService(db=db)
 
 

@@ -10,7 +10,8 @@ from fastapi import status
 client = TestClient(app)
 
 
-user = User(id= 1, name="nome", username="login", password="password")
+user = User(id=1, name="nome", username="login", password="password")
+
 
 def test_create_resource():
     app.dependency_overrides[get_current_user] = lambda: user
@@ -19,18 +20,19 @@ def test_create_resource():
 
     app.dependency_overrides[get_resource_service] = lambda: service
 
-    payload={
+    payload = {
         "titulo": "titulo",
         "descricao": "descricao",
         "tipo": "PDF",
         "url": "www.teste.com",
-        "tags": ["bom", "ruim"]
+        "tags": ["bom", "ruim"],
     }
 
-    response = client.post('/resources', json=payload)
+    response = client.post("/resources", json=payload)
 
     service.cadastrar_recurso.assert_called_once()
     assert response.status_code == status.HTTP_201_CREATED
+
 
 def test_create_resource_with_error():
     app.dependency_overrides[get_current_user] = lambda: user
@@ -41,14 +43,14 @@ def test_create_resource_with_error():
 
     app.dependency_overrides[get_resource_service] = lambda: service
 
-    payload={
+    payload = {
         "titulo": "titulo",
         "descricao": "descricao",
         "tipo": "PDF",
         "url": "www.teste.com",
-        "tags": ["bom", "ruim"]
+        "tags": ["bom", "ruim"],
     }
 
-    response = client.post('/resources', json=payload)
+    response = client.post("/resources", json=payload)
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST

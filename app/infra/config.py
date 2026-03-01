@@ -1,9 +1,11 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from enum import Enum
 
-class Environment(str ,Enum):
+
+class Environment(str, Enum):
     dev = "dev"
     prod = "prod"
+
 
 class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///:memory:"
@@ -13,5 +15,6 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
 
 settings = Settings()

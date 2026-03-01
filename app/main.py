@@ -6,25 +6,21 @@ from .infra import security
 
 from fastapi import FastAPI
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     if settings.ENV == "dev":
         test_connection()
-    
+
     create_db_and_tables()
     yield
 
+
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(resources.router,
-                   prefix="/resources",
-                    tags=["recursos"]
-                )
+app.include_router(resources.router, prefix="/resources", tags=["recursos"])
 
 app.include_router(security.router)
-
-
-
 
 
 @app.get("/")

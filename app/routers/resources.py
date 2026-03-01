@@ -10,10 +10,11 @@ router = APIRouter()
 
 
 @router.post("/")
-async def create_recurso(service: Annotated[ResourceService, Depends(get_resource_service)],
-                        current_user: Annotated[User, Depends(get_current_user)],
-                        request_body: ResourceCreateRequest
-                          ):
+async def create_recurso(
+    service: Annotated[ResourceService, Depends(get_resource_service)],
+    current_user: Annotated[User, Depends(get_current_user)],
+    request_body: ResourceCreateRequest,
+):
     try:
         service.cadastrar_recurso(request_body, current_user)
         return Response(status_code=status.HTTP_201_CREATED)

@@ -7,18 +7,17 @@ url = settings.DATABASE_URL
 connect_args = {"check_same_thread": False} if "sqlite" in url else {}
 echo = True if settings.ENV == "dev" else False
 
-engine = create_engine(
-    url,
-    connect_args=connect_args,
-    echo=echo
-                       )
+engine = create_engine(url, connect_args=connect_args, echo=echo)
+
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
 
+
 def get_session():
     with Session(engine) as session:
         yield session
+
 
 def test_connection():
     try:
@@ -27,4 +26,3 @@ def test_connection():
             print("Conexão bem sucedida")
     except Exception as e:
         print("Conexão falhou")
-        
