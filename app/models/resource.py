@@ -25,3 +25,7 @@ class Resource(ResourceCreateRequest, table=True):
 
     id_usuario: int = Field(foreign_key="users.id")
     usuario: "User" = Relationship(back_populates="recursos")
+
+
+class ResourceResponse(ResourceCreateRequest):
+    id: int
