@@ -10,7 +10,8 @@ from fastapi import FastAPI
 async def lifespan(app: FastAPI):
     if settings.ENV == "dev":
         test_connection()
-        create_db_and_tables()
+    
+    create_db_and_tables()
     yield
 
 app = FastAPI(lifespan=lifespan)
