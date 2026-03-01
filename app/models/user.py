@@ -17,7 +17,6 @@ class User(SQLModel, table=True):
     recursos: List["Resource"] = Relationship(back_populates="usuario")
 
 
-#
 class UserRequest(SQLModel):
     name: str
     username: str
