@@ -1,6 +1,7 @@
 from sqlmodel import SQLModel, create_engine, Session, text
 from .config import settings
 from app.models.user import User
+from app.models.resource import Resource
 
 url = settings.DATABASE_URL
 connect_args = {"check_same_thread": False} if "sqlite" in url else {}
