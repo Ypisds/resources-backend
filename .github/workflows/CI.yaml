@@ -26,7 +26,7 @@ jobs:
           pip install pytest httpx flake8 black
 
       - name: Check Formatting (Black)
-        run: black --check --line-length 88 .
+        run: black --check --diff --line-length 88 .
 
       - name: Run Linter (Flake8)
         run: |
