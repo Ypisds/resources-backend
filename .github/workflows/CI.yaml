@@ -32,6 +32,7 @@ jobs:
   deploy:
     name: Deploy to Render
     needs: build
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Render Deploy
