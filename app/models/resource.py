@@ -1,5 +1,9 @@
 from sqlmodel import SQLModel, Field, Column, JSON, Relationship
 from enum import Enum
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .user import User
 
 
 class TipoResource(str, Enum):

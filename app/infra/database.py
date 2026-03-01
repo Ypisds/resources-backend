@@ -1,7 +1,5 @@
 from sqlmodel import SQLModel, create_engine, Session, text
 from .config import settings
-from app.models.user import User
-from app.models.resource import Resource
 
 url = settings.DATABASE_URL
 connect_args = {"check_same_thread": False} if "sqlite" in url else {}
@@ -24,5 +22,5 @@ def test_connection():
         with Session(engine) as session:
             session.exec(text("SELECT 1"))
             print("Conexão bem sucedida")
-    except Exception as e:
+    except Exception:
         print("Conexão falhou")

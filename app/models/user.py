@@ -1,5 +1,9 @@
 from sqlmodel import SQLModel, Field, Relationship
-from typing import List
+from typing import List, TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from .resource import Resource
 
 
 class User(SQLModel, table=True):

@@ -1,8 +1,7 @@
 import pytest
 from unittest.mock import MagicMock, ANY
 from fastapi.testclient import TestClient
-from app.infra.database import get_session
-from app.services.user_service import UserService, verify_password, get_password_hash
+from app.services.user_service import UserService, get_password_hash
 from sqlmodel import Session
 from app.models.user import User, UserRequest
 from fastapi import HTTPException
@@ -68,7 +67,7 @@ def test_get_user_without_user():
 
     user = service.get_user("username")
 
-    assert user == False
+    assert user is False
 
 
 def test_authenticate_user_with_success():
@@ -96,4 +95,4 @@ def test_authenticate_user_wrong_password():
 
     user = service.authenticate_user("login", "password_wrong")
 
-    assert user == False
+    assert user is False

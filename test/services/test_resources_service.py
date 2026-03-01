@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 from app.services.resources_service import ResourceService
-from app.models.resource import ResourceCreateRequest, Resource, TipoResource
+from app.models.resource import ResourceCreateRequest, TipoResource
 from app.main import app
 from app.models.user import User
 from unittest.mock import MagicMock, ANY

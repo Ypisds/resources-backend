@@ -2,7 +2,6 @@ from typing import Annotated
 from .services.resources_service import ResourceService
 from sqlmodel import Session
 from .infra.database import get_session
-from pwdlib import PasswordHash
 from fastapi import Depends
 from .services.user_service import UserService
 
