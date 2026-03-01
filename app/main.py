@@ -2,6 +2,7 @@ from .routers import resources
 from contextlib import asynccontextmanager
 from .infra.config import settings
 from .infra.database import create_db_and_tables, test_connection
+from .infra import security
 
 from fastapi import FastAPI
 
@@ -18,6 +19,8 @@ app.include_router(resources.router,
                    prefix="/resources",
                     tags=["recursos"]
                 )
+
+app.include_router(security.router)
 
 
 
