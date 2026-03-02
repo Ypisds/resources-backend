@@ -1,10 +1,17 @@
 from dataclasses import dataclass
 from typing import Annotated
-from sqlmodel import Session
+from sqlmodel import Session, select, func, desc
 from app.infra.database import get_session
 from fastapi import Depends, HTTPException, status
-from app.models.resource import Resource, ResourceCreateRequest, ResourceResponse
+from app.models.resource import (
+    Resource,
+    ResourceCreateRequest,
+    ResourceResponse,
+    TipoResource,
+)
 from app.models.user import User
+from app.models.page import Page
+from pydantic import PositiveInt
 
 
 @dataclass
@@ -58,3 +65,43 @@ class ResourceService:
 
         self.db.delete(resource_returned)
         self.db.commit()
+
+        return None
+
+    def listagem_recursos(
+        self,
+        titulo: str | None,
+        tipo: TipoResource | None,
+        tags: list[str] | None,
+        page: PositiveInt = 1,
+        size: PositiveInt = 10,
+    ) -> Page[ResourceResponse]:
+        statement = select(Resource)
+
+        if titulo:
+            statement = statement.where(Resource.titulo.ilike(f"%{titulo}%"))
+
+        if tipo:
+            statement = statement.where(Resource.tipo == tipo)
+
+        if tags:
+            for tag in tags:
+                statement = statement.where(Resource.tags.contains(tag))
+
+        total_query = select(func.count()).select_from(statement.subquery())
+        total = self.db.exec(total_query).one()
+
+        items_query = (
+            statement.order_by(desc(Resource.id)).offset((page - 1) * size).limit(size)
+        )
+        items = self.db.exec(items_query).all()
+
+        items_response = [ResourceResponse.model_validate(item) for item in items]
+
+        return Page[ResourceResponse](
+            items=items_response,
+            total=total,
+            page=page,
+            size=size,
+            pages=(total + size - 1) // size,
+        )
