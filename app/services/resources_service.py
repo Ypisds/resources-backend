@@ -37,12 +37,6 @@ class ResourceService:
                 status_code=status.HTTP_404_NOT_FOUND, detail="Recurso não existe"
             )
 
-        if resource_returned.id_usuario != user.id:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Usuário não é o dono do recurso",
-            )
-
         return resource_returned
 
     def atualizar_recurso(
