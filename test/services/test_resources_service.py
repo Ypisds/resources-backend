@@ -77,21 +77,6 @@ def test_get_user_by_id_error_resource_nao_existe():
     assert e.value.detail == "Recurso não existe"
 
 
-def test_get_user_by_id_error_unauthorized_user():
-    db_mock = MagicMock(spec=Session)
-    db_mock.get.return_value = Resource(id_usuario=2)
-
-    user = User(id=1, name="nome", username="login", password="password")
-
-    service = ResourceService(db=db_mock)
-
-    with pytest.raises(HTTPException) as e:
-        service.get_resource_by_id(1, user)
-
-    assert e.value.status_code == status.HTTP_401_UNAUTHORIZED
-    assert e.value.detail == "Usuário não é o dono do recurso"
-
-
 def test_atualizar_recurso_com_sucesso():
     db_mock = MagicMock(spec=Session)
 

@@ -28,6 +28,7 @@ app.include_router(ia.router, prefix="/ai", tags=["ai"])
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://resources-frontend.onrender.com",
 ]
 
 
