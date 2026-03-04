@@ -54,6 +54,33 @@ A API é protegida utilizando o padrão OAuth2 com Password Flow e JSON Web Toke
 
 ---
 
+## ⚙️ DevOps: Integração e Entrega Contínuas (CI/CD)
+
+O projeto conta com uma pipeline automatizada utilizando **GitHub Actions** para garantir a qualidade do código e realizar o deploy de forma contínua e segura.
+
+
+
+A pipeline é dividida em dois *jobs* principais (`build` e `deploy`) e é engatilhada automaticamente em dois cenários:
+* Abertura de um **Pull Request** para a branch `main`.
+* **Push** direto na branch `main`.
+
+### 1. Continuous Integration (CI)
+O job de `build` roda em um ambiente Ubuntu e é responsável por validar a integridade do código antes que ele seja mesclado ou vá para produção.
+
+* **Setup e Cache:** Configura o ambiente Python e utiliza cache para o `pip`, acelerando a instalação das dependências em execuções futuras.
+* **Code Formatting (Black):** Verifica se o código segue os padrões de formatação PEP 8. A flag `--check` garante que a pipeline falhe se houver arquivos fora do padrão.
+* **Linting (Flake8):** Analisa o código em busca de erros de sintaxe, variáveis não utilizadas e complexidade, ignorando pastas de ambiente virtual (`.venv`, `__pycache__`).
+* **Testes Automatizados (Pytest):** Executa a suíte de testes da aplicação para garantir que as novas alterações não quebraram funcionalidades existentes.
+
+### 2. Continuous Deployment (CD)
+O job de `deploy` é responsável por colocar a aplicação no ar, mas possui regras estritas de execução:
+
+* **Condicional de Sucesso:** Só é executado se o job de `build` (lint e testes) passar com sucesso (`needs: build`).
+* **Condicional de Gatilho:** Só ocorre em eventos de `push` na branch `main`. Pull Requests rodam os testes, mas não disparam o deploy.
+* **Integração com o Render:** Utiliza um webhook seguro (`RENDER_DEPLOY_HOOK` armazenado no GitHub Secrets) para avisar o servidor do Render que uma nova versão validada está pronta para ser colocada em produção.
+
+---
+
 ## 🚦 Endpoints Principais
 
 A documentação interativa (Swagger UI) com todos os schemas e rotas pode ser acessada em `/docs` ao rodar o projeto.
