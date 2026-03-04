@@ -77,7 +77,6 @@ def test_get_user_by_id_error_resource_nao_existe():
     assert e.value.detail == "Recurso não existe"
 
 
-
 def test_atualizar_recurso_com_sucesso():
     db_mock = MagicMock(spec=Session)
 
