@@ -140,3 +140,8 @@ A documentação interativa (Swagger UI) com todos os schemas e rotas pode ser a
 
    Abra seu navegador em `http://localhost:8000/docs` para testar as rotas via Swagger.
 
+---
+
+## Autor:
+Feito por **Thiago Brito* para o Desafio Técnico da V-Lab
+
